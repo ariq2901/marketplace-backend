@@ -34,10 +34,20 @@ class UserController extends Controller
 		if($validator->fails()) {
 			return response()->error(['error' => $validator->errors()]);
 		}
+
 		$input = $request->all();
 		$input['password'] = bcrypt($input['password']);
 		$user = User::create($input);
+
+		if($input['role'] === 'pembeli') {
+			$user->assignRole('pembeli');
+		}
+		if($input['role'] === 'penjual') {
+			$user->assignRole('penjual');
+		}
+
 		event(new Registered($user));
+
 		if($user) {
 			return response()->success('Verifikasi akun email yang telah kami kirim ke mailbox anda');
 		}
