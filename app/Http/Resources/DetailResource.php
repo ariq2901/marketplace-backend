@@ -23,6 +23,7 @@ class DetailResource extends JsonResource
             'harga' => $this->harga,
             'jumlah' => $this->jumlah,
             'description' => $this->description,
+            'categories' => CategoryResource::collection($this->categories),
         ];
     }
 }
